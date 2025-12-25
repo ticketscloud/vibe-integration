@@ -2,8 +2,22 @@ syntax = "proto3";
 
 package vibe.v1;
 
-// Возврат билетов
+// Информация о возврате билетов
 message Refund {
+  // Информация о покупателе
+  Customer customer = 1;
+
   // Идентификаторы билетов, на которые оформлен возврат
-  repeated string ticket_ids = 1;
+  repeated string ticket_ids = 2;
+
+  message Customer {
+    // Электронная почта покупателя билетов
+    string email = 1;
+
+    // Номер телефона покупателя билетов (c кодом страны, например +79001234567)
+    string phone = 2;
+
+    // ФИО покупателя билетов (если доступно)
+    string name = 3;
+  }
 }
