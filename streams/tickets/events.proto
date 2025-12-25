@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package vibe.v1;
+
+// Информация о мероприятии
+message Event {
+  // Уникальный идентификатор мероприятия
+  string id = 1;
+
+  // Название мероприятия
+  string name = 2;
+
+  // Категория мероприятия
+  Category category = 3;
+
+  // Дата и время начала и окончания мероприятия (Unix timestamp)
+  int64 start_at = 4;
+  int64 finish_at = 5;
+
+  // Идентификатор организатора мероприятия
+  string organizer_id = 6;
+
+  // Опциональные детали мероприятия
+  string media = 7;        // URL изображения мероприятия
+  string timezone = 8;     // Часовой пояс мероприятия
+  string description = 9;  // Описание мероприятия
+
+  // Место проведения мероприятия
+  Venue venue = 10;
+
+  // Категория мероприятия
+  enum Category {
+    CATEGORY_UNSPECIFIED = 0;
+    BALLET = 1;
+    BUSINESS = 2;
+    CONCERT = 3;
+    DEVELOPMENT = 4;
+    EXCURSION = 5;
+    EXHIBITION = 6;
+    FESTIVAL = 7;
+    HEALTH = 8;
+    KIDS = 9;
+    MOVIE = 10;
+    MUSEUM = 11;
+    PARTY = 12;
+    SHOW = 13;
+    SPORT = 14;
+    TEST = 15;
+    THEATER = 16;
+    OTHER = 17;
+  }
+
+  // Место проведения мероприятия
+  message Venue {
+    // Название места проведения
+    string name = 1;
+
+    // Адрес места проведения
+    string address = 2;
+
+    // Дополнительная информация о месте проведения
+    string description = 3;
+
+    // Почтовый индекс и город места проведения
+    string zipcode = 4;
+    string city_name = 5;
+
+    // Координаты места проведения
+    double lat = 6;
+    double lon = 7;
+  }
+}

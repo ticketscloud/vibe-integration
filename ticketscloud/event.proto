@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+import "generic.proto";
+import "google/protobuf/timestamp.proto";
+
+
+message Event {
+  enum EventStatus {
+    STAND_BY = 0;  // продажи остановлены
+    PUBLIC = 1;  // продажи активны
+    CANCELED = 2;  // мероприятие отменено
+    FINISHED = 3;  // мероприятие завершилось
+  }
+  message LastRequest {
+    message IpPort {
+      string ip = 1;
+      uint32 port = 2;
+    }
+    IpPort client = 1;  // IP and PORT of the client who sent the request
+    IpPort server = 2;  // IP and PORT of the server who processed the request
+    string user_agent = 3;  // User-Agent of the client who sent the request
+    string user_id = 4;  // Id User who sent request
+    string user_email = 5;  // Email User who sent request
+  }
+
+  message Media {
+    string cover = 1;  // [O]
+    string cover_small = 2;  // [O]
+    string cover_original = 3;  // [O]
+  }
+
+  message LegalRu {
+    enum Type {
+      LTD = 0;  // ООО
+      IP = 1;  // ИП
+    }
+    string id = 1;  // id реквизитов
+    Type type = 2;  // типа юр. лица
+    string name = 3;  // название юр. лица
+    string inn = 4;  // ИНН
+    string address = 5;  // юридический адрес
+    oneof ogrns {
+      string ogrn = 6;  // ОГРН
+      string ogrnip = 7;  // ОРГНИП
+    }
+  }
+
+  message TicketSet {
+    message Rule {
+      enum Type {
+        SIMPLE = 0;  // простой тип правила, правила продажи сменяют друг друга с течением времени
+      }
+      message SimpleType {
+        uint64 price = 1;  // цена правила продажи категории
+      }
+      string id = 1;  // id правила продажи категории
+      Type type = 2;  // тип правила продажи категории
+      optional Lifetime lifetime = 3;
+      oneof types {
+        SimpleType simple = 10;
+      }
+    }
+
+    string id = 1;  // id категории
+    string name = 2;  // название категории
+    string description = 3;  // [O] описание категории
+    int32 pos = 4;  // порядковый номер категории
+    string sector = 5;  // [O] id сектора
+    bool with_seats = 6;  // признак категории с рассадкой
+
+    uint32 amount = 7;  // количество всего билетов в категории
+
+    repeated Rule rules = 10;  // правила изменения цен на категорию
+
+    bool smart_tickets_transferable = 30;  // возможность передать билет между пользователями в vibe
+    bool removed = 40;  // признак, что категория удалёна
+  }
+
+  enum SmartTicketSetting {
+    NONE = 0;  // смарт-билеты не используются на мероприятии
+    ONLY = 1;  // на мероприятие возможна продажа только смарт-билетов
+    ANY = 2;  // на мероприятие можно продавать и электронные билеты и смарт-билеты
+  }
+
+  message VibeSettings {
+    enum ScanMode {
+      NONE = 0; // тип сканирования не указан ввиду выключенных смарт билетов
+      DYNAMIC = 1; // Динамический QR-код
+      STATIC = 2; // Статический QR-код
+      STATIC_BARCODE = 3; // Статический штрихкод
+      MANUAL = 4; // Ручное погашение
+      ACCESS_CODE = 5; // Код доступа
+    }
+    message ResaleParams {
+      uint32 org_fee = 1; // комиссия организатора
+      uint32 min_resale_price_ppm = 2; // минимальная цена перепродажи в ppm
+      uint32 max_resale_price_ppm = 3; // максимальная цена перепродажи в ppm
+    }
+
+    ScanMode scan_mode = 41; // тип сканирования в вайбе
+    bool donate = 42; // возможность пожертвования
+    bool resale_ready = 43; // возможность перепродажи
+    ResaleParams resale_params = 44; // параметры перепродажи
+    bool resale_free = 45; // возможность бесплатной перепродажи
+  }
+
+  message MtsCashback {
+    bool enabled = 1;
+    Percentage regular = 2;
+    Percentage premium = 3;
+    int64 limit = 4;
+  }
+
+  string id = 1;  // id мероприятия
+  string meta = 2;  // [O] id группы мероприятий (отсутствует, если мероприятие одиночное)
+  string name = 3;  // название мероприятия
+  string description = 4;  // [O] описание мероприятия
+
+  EventStatus status = 5;  // статус мероприятия
+  string org = 6;  // id организатора
+  string venue = 7;  // id площадки
+  string map = 8;  // [O] id схемы зала
+  Lifetime lifetime = 9;  // дата и время начала и конца мероприятия
+
+  string category = 10;  // id категории мероприятия
+  repeated string tags = 11;  // id жанров мероприятия
+  repeated string artists = 12;  // id артистов мероприятия
+
+  string age_rating = 13;  // [O] возрастной рейтинг мероприятия
+  Media media = 14;  // [O] обложки
+  bool open_date = 15;  // признак мероприятия с открытой датой начала
+
+  Percentage org_extra = 18;  // [O] % сервисного сбора организатора
+
+  oneof legal {
+    LegalRu legal_ru = 20;  // [O] реквизиты организатора мероприятия
+  };
+  bool foreign_legal = 29;  // внешние реквизиты -- только для данного мероприятия
+
+  repeated TicketSet sets = 30;  // категории билетов
+  uint32 tickets_amount = 31;  // количество всего билетов в мероприятии
+  int32 rating_public = 32;  // публичный рейтинг мероприятия
+//  float rating = 32;  // внутренний рейтинг мероприятия
+
+  SmartTicketSetting smart_tickets = 40;  // настройки смарт-билетов
+  VibeSettings vibe_settings = 41; // настройки интеграции вайб
+  MtsCashback mts_cashback = 42;   // настройки интеграции МТС кэшбэк
+
+  google.protobuf.Timestamp updated_at = 51;
+
+  LastRequest last_request = 52;  // [O] последний запрос на изменение мероприятия
+}

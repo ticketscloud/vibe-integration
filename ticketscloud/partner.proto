@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "generic.proto";
+
+message Partner {
+    enum Status {
+        NEW = 0;
+        APPROVED = 1;
+        BOT = 2;
+        INACTIVE = 3;
+    }
+
+    message ContactDetails {
+      string name = 1;
+      string position = 2;
+      string address = 3;
+      string www = 4;
+      string email = 5;
+      repeated string phones = 6;
+    }
+
+    message Term {
+      Percentage org = 1;
+      Percentage extra = 2;
+      Percentage agent = 3;
+    }
+    message Legal {
+      string name = 1; // название легал
+      string address = 2; // legal address (юр лица, не банка)
+      string inn = 3; // инн легал
+      oneof ogrns {
+        string ogrn = 6;  // ОГРН
+        string ogrnip = 7;  // ОРГНИП
+      }
+    }
+    string id = 1;  // id партнера
+    string name = 2;  // наименование партнера
+    string role = 3;  // тип партнера: организатор, распространитель,...
+    string desc = 4;  // описание партнера
+    Status status = 5;  // статус партнера в системе
+
+    bool removed = 6;  // (устаревшее, более не используется) признак об удалении
+    bool hidden = 7;  // скрытие партнера
+
+    string manager = 8;  // email менеджера
+    string sale_manager = 9;  // email sale-менеджера
+
+    google.protobuf.Timestamp created_at = 10;  // когда был зарегистрирован
+    google.protobuf.Timestamp approved_at = 11;  // когда подписал договор
+    google.protobuf.Timestamp updated_at = 12;  // последнее обновление
+
+    ContactDetails contact_core = 13;  // основной контакт
+    ContactDetails contact = 14;  // контакт
+
+    string currency = 15;  // валюта партнера
+
+    string owner = 16;  //  [0] id пользователя кто владеет этим партнером
+    string creator = 17;  // [0] id пользователя кто создал партнера
+    string legal_id = 18;  // [0] id реквизиты партнера устаревший
+
+    Term standard_term = 19;  // стандартные условия
+    bool auto_accept_standard_term = 20;  // автоматическое принятие стандартных условий
+
+    repeated string categories = 21;  // список категорий партнера
+    repeated string tags = 22;  // список тегов партнера
+
+    Percentage current_events_sales_holding = 23; // % удержания продаж текущих мероприятий
+    bool current_events_sales_hold_agent = 24; // удерживать агентскую часть по текущим мероприятиям
+
+    Percentage org_extra = 25;  // % сервисного сбора организатора
+    int64 balance_limit = 26;  // лимит баланса установленного на партнера
+
+    bool agree_sharing_customers = 27;  // разрешение делиться клиентами
+    bool gdpr_agree = 28;  // согласие на обработку персональных данных
+    bool foreign_legal_enabled = 29;  // разрешение на использование иностранных юр. лиц
+    bool disable_tc_tracking = 30;  // выключение метрик отслеживания TC
+    bool allow_beta_features = 31;  // разрешение включения beta-фич
+    bool allow_pushka = 32;  // разрешение на оплату через «пушку»
+
+    Legal legal = 40;  // реквизиты партнера
+}

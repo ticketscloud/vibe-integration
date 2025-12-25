@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package vibe.v1;
+
+// Возврат билетов
+message Refund {
+  // Идентификаторы билетов, на которые оформлен возврат
+  repeated string ticket_ids = 1;
+}

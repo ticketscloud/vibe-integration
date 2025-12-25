@@ -1,0 +1,210 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+import "generic.proto";
+
+
+message Order {
+    enum Origin {
+        CONTROL_PANEL = 0;
+        WIDGET = 1;
+        API = 2;
+        SALESPOINT = 3;
+        SHOWROOM = 4;
+        EXTERNAL_WIDGET = 5;
+        CUSTOMER_PANEL = 6;
+    }
+
+    enum Status {
+        EXECUTED = 0;
+        IN_PROGRESS = 1;
+        DONE = 2;
+        CANCELLED = 3;
+        EXPIRED = 4;
+    }
+
+    message Managers {
+        message Item {
+            string account = 1;
+            string sale = 2;
+        }
+
+        Item org = 1;
+        Item vendor = 2;
+    }
+
+    message Settings {
+        message Customer {
+            string user = 1;
+            string name = 2;
+            string email = 3;
+            string phone = 4;
+            string lang = 5;
+            string session = 6;
+        }
+
+        Customer customer = 1;
+        bool invitation = 2;
+        bool send_tickets = 3;
+        bool smart_tickets = 4;
+        // string tickets_zip = 5;
+        // SalespointType salespoint_type = 6;
+        // bool subscribe_agree = 7;
+        bool mts_cashback_enabled = 10;
+
+    }
+
+    message Sessions {
+        message UTM {
+            string id = 1;
+            string source = 2;
+            string campaign = 3;
+            string medium = 4;
+        }
+        UTM utm = 1;
+        string ga = 2;
+        string ym = 3;
+        string roistat = 4;
+    }
+
+    message DoneValuesAcquiring {
+        ValueAmount core = 1;
+        ValueAmount payment_core = 2;
+        ValueAmount payment_partner = 3;
+    }
+
+    message DoneValuesDealFees {
+        ValueAmount org = 1;
+        ValueAmount agent = 2;
+    }
+
+    message DoneValuesProfit {
+        int64 org = 1;
+        int64 agent = 2;
+        int64 core = 3;
+    }
+
+    message DoneValues {
+        message Extra {
+            ValueAmount deal = 1;
+            ValueAmount org = 2;
+            ValueAmount full = 3;
+        }
+
+        int64 nominal = 1;
+        Extra extra = 2;
+        int64 full = 3;
+        int64 transaction = 4;
+        DoneValuesAcquiring acquiring = 5;
+        DoneValuesDealFees deal_fees = 6;
+        DoneValuesProfit profit = 7;
+    }
+
+    message Ticket {
+        message Seat {
+            string row = 1;
+            string number = 2;
+        }
+
+        // message Tariff {
+        //     string id = 1;
+        //     oneof value {
+        //         int64 fix = 2;
+        //         Percentage percentage = 3;
+        //     }
+        // }
+
+        message Extra {
+            ValueAmount deal = 1;
+            ValueAmount org = 2;
+            ValueAmount full = 3;
+        }
+
+        message DealFees {
+            ValueAmount agent = 1;
+            ValueAmount org = 2;
+        }
+
+        string id = 1;
+        // Status status = 2;
+
+        string serial = 3;
+        int64 number = 4;
+        string barcode = 5;
+
+        string set = 6;
+        string sector = 7;
+        Seat seat = 8;
+
+        int64 price = 10;
+        int64 nominal = 11;
+        Extra extra = 12;
+        int64 full = 13;
+        int64 acquiring = 14;
+
+        DealFees deal_fees = 17;
+
+        repeated string mods = 20;
+        // Tariff tariff = 21;
+    }
+    message Payment {
+      enum Status {
+        DONE = 0;
+      }
+      message CardInfo {
+        string masked_pan = 1;
+        string bank_name = 2;
+      }
+      string id = 1;
+      string type = 2;
+//      Status status = 3;
+      int64 amount = 4;
+      string short_id = 5;
+      string auth_ref_number = 6;
+      CardInfo card_info = 10;
+    }
+    message LastRequest {
+      message IpPort {
+        string ip = 1;
+        uint32 port = 2;
+      }
+      IpPort client = 1;  // IP and PORT of the client who sent the request
+      IpPort server = 2;  // IP and PORT of the server who processed the request
+      string user_agent = 3;  // User-Agent of the client who sent the request
+    }
+    string id = 1;
+    int64 number = 2;
+
+    Origin origin = 3;
+    Status status = 4;
+
+    string meta_event = 6;
+    string event = 7;
+    string org = 8;
+    string vendor = 9;
+    string deal = 10;
+
+    Managers managers = 11;
+
+    google.protobuf.Timestamp created_at = 12;
+    // google.protobuf.Timestamp expired_after = 13;
+    google.protobuf.Timestamp done_at = 14;
+    repeated Payment payments = 15;
+
+    Settings settings = 20;
+    Sessions sessions = 21;
+
+    DoneValues done_values = 30;
+    repeated Ticket tickets = 33;
+
+    // tc-streams specific
+    uint32 tickets_quantity = 40;
+    int64 discount = 41;
+    string payment_system = 42;
+    string modificator_id = 43;
+    string promocode_id = 44;
+    string referral_vibe_id = 45;
+
+    LastRequest last_request = 50; // Information about the last request
+}

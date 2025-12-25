@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+import "generic.proto";
+
+
+message RefundRequest {
+    enum Status {
+        NEW = 0;
+        IN_PROGRESS = 1;
+        APPROVED = 2;
+        REJECTED = 3;
+    }
+
+    enum ReasonType {
+      AT_WILL = 0;
+      FACE_CONTROL_FAILED = 1;
+      DISEASE = 2;
+      CANCEL_OR_POSTPONE = 3;
+      CUSTOM = 4;
+    }
+
+    enum Culprit {
+        CORE = 0;
+        ORG = 1;
+        AGENT = 2;
+        USER = 3;
+    }
+    message LastRequest {
+      message IpPort {
+        string ip = 1;
+        uint32 port = 2;
+      }
+      IpPort client = 1;  // IP and PORT of the client who sent the request
+      IpPort server = 2;  // IP and PORT of the server who processed the request
+      string user_agent = 3;  // User-Agent of the client who sent the request
+    }
+
+    message Ticket {
+        message Extra {
+            ValueAmount deal = 1;
+            ValueAmount org = 2;
+            ValueAmount full = 3;
+        }
+
+        message MoneyDetail {
+          int64 refund_nominal = 1;  // nominal for refund calcuatings
+          int64 customer = 2;  // money which send to customer
+          int64 org = 3;  // money which send from org
+          int64 agent = 4;  // money which send from agent
+        }
+
+        string id = 1;
+
+        int64 price = 10;
+        int64 nominal = 11;
+        Extra extra = 12;
+        int64 full = 13;
+        int64 acquiring = 14;
+        MoneyDetail money_detail = 15;
+
+        repeated string mods = 20;
+    }
+    enum Policy {
+        GENERIC = 0;
+        LAW_RU_193 = 1;
+    }
+
+    enum ReasonRejection {
+        EMPTY = 0;
+        LAW_RU_193_LESS_3_DAY = 1;
+        DECREE_RU_830_MOVING_EVENT = 2;
+        DISCOUNT_TICKET = 3;
+        FINISHED_EVENT = 4;
+        GIFT_TICKET = 5;
+        BY_CUSTOMER = 6;
+        INVALID_DOCUMENT = 7;
+        BAD_REASON = 8;
+        PASSED_14_DAYS = 9;
+        CUSTOM_BAD = 10;
+        ALREADY_REFUNDED = 11;
+        DUPLICATED = 12;
+        USED_TICKET = 13;
+    }
+
+    message Restrictions {
+        Percentage law_ru_193 = 1;
+        bool split_full_refund = 2;
+    }
+
+    message MoneyDetail {
+        int64 refund_nominal = 1;  // nominal for refund calcuatings
+        int64 customer = 2;  // money which send to customer
+        int64 org = 3;  // money which send from org
+        int64 agent = 4;  // money which send from agent
+    }
+
+    string id = 1;
+    Status status = 2;
+    // RefundOrigin origin = 3;
+
+    string partner = 4;
+    string user = 5;
+    Culprit culprit = 6;
+    string order = 7;
+
+    google.protobuf.Timestamp created_at = 10;
+    google.protobuf.Timestamp updated_at = 11;
+    google.protobuf.Timestamp requested_at = 12;
+    google.protobuf.Timestamp finished_at = 13;
+
+    Policy policy = 20;
+    Restrictions restrictions = 21;
+
+    MoneyDetail money_detail = 22;
+    int64 transaction = 23;
+    repeated Ticket tickets = 24;
+    ReasonType reason_type = 25;
+    bool without_documents = 26;
+
+    ReasonRejection reason_rejection = 30;
+
+    // denormalize
+    string event = 40;
+    string org = 41;
+    string vendor = 42;
+
+    // tc-streams specific
+    uint32 tickets_quantity = 50;
+
+    LastRequest last_request = 61;  // Information about the last request
+}

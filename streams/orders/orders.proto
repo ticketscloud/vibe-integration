@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package vibe.v1;
+
+// Информация о билете на мероприятие
+message Ticket {
+  // Идентификатор билета
+  string id = 1;
+
+  // Штрихкод или QR-код билета
+  string barcode = 2;
+
+  // Серия и номер билета
+  string number = 3;
+  string series = 4;
+
+  // Место на мероприятии
+  string row = 5;
+  string seat = 6;
+
+  // Категория билета
+  string category = 7;
+
+  // Дополнительное описание билета
+  string description = 8;
+
+  // Цена билета в номинале (в копейках/центах)
+  int64 price_nominal = 9;
+
+  // Валюта цены билета
+  Currency currency = 10;
+
+  enum Currency {
+    CURRENCY_UNSPECIFIED = 0;
+    USD = 1;
+    EUR = 2;
+    RUB = 3;
+    GBP = 4;
+    CNY = 5;
+  }
+}
+
+message Order {
+  // Идентификатор заказа
+  string id = 1;
+
+  // Идентификатор мероприятия
+  string event_id = 2;
+
+  // Идентификатор организатора мероприятия
+  string organizer_id = 3;
+
+  // Информация о покупателе
+  Customer customer = 4;
+
+  // Список билетов в заказе
+  repeated Ticket tickets = 5;
+
+  message Customer {
+    // Электронная почта покупателя билетов
+    string email = 1;
+
+    // Номер телефона покупателя билетов (c кодом страны, например +79001234567)
+    string phone = 2;
+
+    // ФИО покупателя билетов (если доступно)
+    string name = 3;
+  }
+}
