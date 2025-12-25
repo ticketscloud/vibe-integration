@@ -25,8 +25,21 @@ _В текущем виде являются избыточными для ст�
 
 **Топики Kafka:**
 
-- Организаторы: Информация об организаторах мероприятий ([Organizer JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/organizers.ts), [Organizer Proto](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/organizer.proto))
+- Организаторы: Информация об организаторах мероприятий ([Organizer JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/organizers.ts), [Organizer Proto](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/organizers.proto)). Важно: информация об организаторах должна быть синхронизирована заранее, до обработки стримов с мероприятиями и заказами.
+- Мероприятия: События, создаваемые организаторами ([Event JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/events.ts), [Event Proto](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/events.proto)). Важно: информация о мероприятиях должна быть синхронизирована заранее, до обработки стримов с заказами.
+- Заказы: Данные о заказах ([Order JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/orders.ts), [Order Proto](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/orders.proto))
+- Возвраты: Информация о возвратах билетов ([Refund JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/refunds.ts), [Refund Proto](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/refunds.proto))
+
+_Топики обсуждаются и могут быть изменены по согласованию между командами. Например, вместо отдельного топика с организаторами можно включить эту информацию в топик с мероприятиями и заказами и т.д._
 
 ### 2.1. Через стрим билетов
 
 Планируется внедрить Kafka стрим, который будет передавать информацию о билетах, включая их статусы (например, активирован, использован, отменен).
+
+**Топики Kafka:**
+
+- Организаторы: Информация об организаторах мероприятий ([Organizer JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/tickets/organizers.ts), [Organizer Proto](https://github.com/ticketscloud/vibe-integration/blob/main/streams/tickets/organizers.proto)). Важно: информация об организаторах должна быть синхронизирована заранее, до обработки стримов с мероприятиями и заказами.
+- Мероприятия: События, создаваемые организаторами ([Event JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/tickets/events.ts), [Event Proto](https://github.com/ticketscloud/vibe-integration/blob/main/streams/tickets/events.proto)). Важно: информация о мероприятиях должна быть синхронизирована заранее, до обработки стримов с заказами.
+- Билеты: Данные о билетах и их статусах ([Ticket JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/tickets/tickets.ts), [Ticket Proto](https://github.com/ticketscloud/vibe-integration/blob/main/streams/tickets/tickets.proto))
+
+_Топики обсуждаются и могут быть изменены по согласованию между командами. Например, вместо отдельного топика с организаторами можно включить эту информацию в топик с мероприятиями и билетами и т.д._
