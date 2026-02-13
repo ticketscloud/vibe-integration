@@ -8,6 +8,7 @@
 ```mermaid
 flowchart LR
     TL[Ticketland]
+    V[Vibeapp]
 
     subgraph Kafka
         E[Events]
