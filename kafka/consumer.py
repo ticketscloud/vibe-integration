@@ -4,6 +4,7 @@ import asyncio
 import json
 import os
 from pathlib import Path
+from typing import cast
 
 from aiokafka import AIOKafkaConsumer, helpers
 
@@ -47,7 +48,7 @@ async def main():
             headers = dict(msg.headers) if msg.headers else {}
             content_type = headers.get("content-type")
             value = (
-                json.loads(msg.value)
+                json.loads(cast(bytes, msg.value))
                 if content_type == b"application/json"
                 else msg.value
             )
