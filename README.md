@@ -10,22 +10,15 @@ flowchart LR
     TL[Ticketland]
 
     subgraph Kafka
-        O[Organizers]
         E[Events]
-
-        subgraph Orders-based
-            OR[Orders]
-            R[Refunds]
-        end
-
+        OR[Orders]
+        R[Refunds]
     end
 
-    TL --> O
     TL --> E
     TL --> OR
     TL --> R
 
-    O --> V[Vibeapp]
     E --> V
     OR --> V
     R --> V
@@ -39,8 +32,8 @@ Vibeapp получает информацию о проданных билета
 **Топики Kafka:**
 
 - **Мероприятия** —
-  [Event JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/events.ts),
-  _Должны быть синхронизированы до обработки заказов._
+  [Event JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/events.ts)
+  (_Должны быть синхронизированы до обработки заказов_)
 - **Заказы** —
   [Order JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/orders.ts),
 - **Возвраты** —
