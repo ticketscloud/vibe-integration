@@ -65,9 +65,29 @@ _Примеры сообщений в формате JSON приведены в 
 В качестве ключа сообщения рекомендуется использовать уникальный идентификатор сущности (например,
 `event_id`, `order_id`).
 
+## 3. Подключение к Kafka
+
+### Production
+
+- **Bootstrap servers**: `rc1a-agdu796r4205p5ip.mdb.yandexcloud.net:9091`
+- **Security protocol**: `SASL_SSL`
+- **SASL mechanism**: `SCRAM-SHA-512`
+- **SSL CA certificate**: `https://storage.yandexcloud.net/cloud-certs/CA.pem`
+- **SASL Username**: предоставляется по запросу
+- **SASL Password**: предоставляется по запросу
+
+### Stage/Dev
+
+- **Bootstrap servers**: `rc1a-faass3ffar5s5q6o.mdb.yandexcloud.net:9091`
+- **Security protocol**: `SASL_SSL`
+- **SASL mechanism**: `SCRAM-SHA-512`
+- **SSL CA certificate**: `https://storage.yandexcloud.net/cloud-certs/CA.pem`
+- **SASL Username**: предоставляется по запросу
+- **SASL Password**: предоставляется по запросу
+
 ---
 
-## 3. Текущая интеграция с Ticketscloud
+## 4. Текущая интеграция с Ticketscloud
 
 В настоящее время Vibeapp получает данные о мероприятиях и билетах из Kafka-стримов Ticketscloud.
 Стримы передают информацию об организаторах, мероприятиях, заказах и возвратах билетов.
