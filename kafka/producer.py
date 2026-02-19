@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 from __future__ import annotations
 
 import asyncio
 import json
 import os
 import random
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
 from aiokafka import AIOKafkaProducer, helpers
@@ -41,34 +43,36 @@ async def main():
     )
 
     await producer.start()
+    print(f"Started Kafka producer for topic '{TOPIC}' at {HOST}:9091")
+
     try:
-        key = f"key-{datetime.now().isoformat()}"
-        value = json.dumps(
-            {
-                "data": random.randint(1, 100),
-                "message": "Debug message from aiokafka producer",
-            }
-        )
+        while True:
+            key = f"key-{datetime.now(tz=UTC).isoformat()}"
+            value = json.dumps(
+                {"data": random.randint(1, 100), "message": "Debug message from aiokafka producer"}
+            )
 
-        md = await producer.send_and_wait(
-            TOPIC,
-            key=key,
-            value=value,
-            # Headers example:
-            # Version: 1.0 (supporting versioning of your message schema)
-            # Encoding: utf-8
-            # Source: <your application name>
-            # Content-Type:
-            #  - application/json (for JSON payloads)
-            #  - application/x-protobuf (for Protobuf payloads)
-            headers=[
-                ("schema-version", b"1.0"),
-                ("application-id", b"debug"),
-                ("content-type", b"application/json"),
-            ],
-        )
+            md = await producer.send_and_wait(
+                TOPIC,
+                key=key,
+                value=value,
+                # Headers example:
+                # Version: 1.0 (supporting versioning of your message schema)
+                # Encoding: utf-8
+                # Source: <your application name>
+                # Content-Type:
+                #  - application/json (for JSON payloads)
+                #  - application/x-protobuf (for Protobuf payloads)
+                headers=[
+                    ("schema-version", b"0.0"),
+                    ("application-id", b"debug"),
+                    ("content-type", b"application/json"),
+                ],
+            )
 
-        print(f"Sent to topic={md.topic} partition={md.partition} offset={md.offset}")
+            print(f"Sent to topic={md.topic} partition={md.partition} offset={md.offset} key={key}")
+
+            await asyncio.sleep(1e-3)
 
     finally:
         await producer.stop()
@@ -76,3 +80,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+# ruff: noqa: S311, T201

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from __future__ import annotations
 
 import asyncio
@@ -43,12 +45,14 @@ async def main():
     )
 
     await consumer.start()
+    print(f"Started Kafka consumer for topic '{TOPIC}' at {HOST}:9091")
+
     try:
         async for msg in consumer:
             headers = dict(msg.headers) if msg.headers else {}
             content_type = headers.get("content-type")
             value = (
-                json.loads(cast(bytes, msg.value))
+                json.loads(cast("bytes", msg.value))
                 if content_type == b"application/json"
                 else msg.value
             )
@@ -62,3 +66,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+# ruff: noqa: E501, T201
