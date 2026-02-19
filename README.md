@@ -4,7 +4,10 @@
 - [Vibeapp интеграция](#vibeapp-интеграция)
   - [1. Планируемая интеграция с Vibeapp](#1-планируемая-интеграция-с-vibeapp)
   - [2. Формат сообщений в Kafka](#2-формат-сообщений-в-kafka)
-  - [3. Текущая интеграция с Ticketscloud](#3-текущая-интеграция-с-ticketscloud)
+  - [3. Подключение к Kafka](#3-подключение-к-kafka)
+    - [Production](#production)
+    - [Stage/Dev](#stagedev)
+  - [4. Текущая интеграция с Ticketscloud](#4-текущая-интеграция-с-ticketscloud)
 <!--toc:end-->
 
 ## 1. Планируемая интеграция с Vibeapp
