@@ -42,12 +42,12 @@ Vibeapp получает информацию о проданных билета
 
 **Топики Kafka:**
 
-- **Мероприятия** —
+- **Мероприятия (events)** —
   [Event JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/events.ts)
   (_Должны быть синхронизированы до обработки заказов_)
-- **Заказы** —
+- **Заказы (orders)** —
   [Order JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/orders.ts),
-- **Возвраты** —
+- **Возвраты (refunds)** —
   [Refund JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/refunds.ts),
 
 _Набор топиков может быть изменён по согласованию между командами в зависимости от потребностей._
