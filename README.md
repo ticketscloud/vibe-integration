@@ -70,6 +70,8 @@ _Примеры сообщений в формате JSON приведены в 
 
 ## 3. Подключение к Kafka
 
+[Подробнее](https://yandex.cloud/ru/docs/managed-kafka/operations/connect/clients)
+
 ### Production
 
 - **Bootstrap servers**: `rc1a-agdu796r4205p5ip.mdb.yandexcloud.net:9091`
