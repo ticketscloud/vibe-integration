@@ -32,10 +32,10 @@ export type Event = {
 	// Дата и время начала и окончания мероприятия (Unix timestamp)
 	start_at: number;
 	finish_at: number;
+	offset: number; // Часовой пояс мероприятия
 
 	// Опциональные детали мероприятия
 	media?: string; // URL изображения мероприятия
-	timezone?: string; // Часовой пояс мероприятия
 	description?: string; // Описание мероприятия
 
 	// Информация об организаторе мероприятия

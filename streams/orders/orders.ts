@@ -23,9 +23,6 @@ export type Order = {
 		// Идентификатор мероприятия
 		event_id: string;
 
-		// Идентификатор организатора мероприятия
-		organizer_id: string;
-
 		// Штрихкод или QR-код билета
 		barcode: string;
 
