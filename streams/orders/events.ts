@@ -13,6 +13,7 @@ export type Event = {
 	category:
 		| "ballet"
 		| "business"
+		| "circus"
 		| "concert"
 		| "develpoment"
 		| "excursion"
@@ -25,8 +26,10 @@ export type Event = {
 		| "party"
 		| "show"
 		| "sport"
+		| "standups"
 		| "test"
 		| "theater"
+		| "workshops"
 		| "other";
 
 	// Дата и время начала и окончания мероприятия (Unix timestamp)
