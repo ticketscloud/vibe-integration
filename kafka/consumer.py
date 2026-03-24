@@ -47,6 +47,9 @@ async def main():
     await consumer.start()
     print(f"Started Kafka consumer for topic '{TOPIC}' at {HOST}:9091")
 
+    # Set offset
+    await consumer.seek_to_beginning()
+
     try:
         async for msg in consumer:
             headers = dict(msg.headers) if msg.headers else {}
