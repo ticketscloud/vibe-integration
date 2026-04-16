@@ -39,8 +39,8 @@ export type Event = {
 		| "workshops"
 		| "other";
 
-	// Дата и время начала и окончания мероприятия (Unix timestamp)
-	start_at: number;
+	// Дата и время начала и окончания мероприятия (Unix timestamp ms)
+	start_at?: number;
 	finish_at: number;
 	offset: number; // Часовой пояс мероприятия
 
@@ -59,14 +59,14 @@ export type Event = {
 
 		// Информация о ЮР лице организатора мероприятия
 		legals?: {
-			// Официальное  название организации
-			name: string;
+			// Официальное  название организации (если не указано, то используется название организатора)
+			name?: string;
 
-			// Тип ЮР лица
-			// ru_lp - ИП
+			// Тип ЮР лица (ru_ltd по умолчанию)
 			// ru_ltd - ООО
+			// ru_lp - ИП
 			// en_ltd - Ltd (зарубежная компания)
-			type: "ru_lp" | "ru_ltd" | "en_ltd";
+			type?: "ru_ltd" | "ru_lp" | "en_ltd";
 
 			// ИНН, ОГРН и адрес организации
 			inn?: string;
