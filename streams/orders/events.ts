@@ -94,6 +94,7 @@ export type Event = {
 
     // Почтовый индекс и город места проведения
     zipcode?: string;
+    city_id?: string;
     city_name?: string;
 
     // Координаты места проведения
