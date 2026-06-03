@@ -8,9 +8,9 @@ type EventMeta = {
   tickets_available: number;
 
   // Минимальная цена билетов в мероприятии (в копейках/центах)
-  price_min: number;
+  price_min?: number;
 
-  // Валюта минимальной цены билетов в мероприятии
-  currency: "USD" | "EUR" | "RUB" | "GBP" | "CNY";
+  // Валюта минимальной цены билетов в мероприятии (default "RUB")
+  currency?: "USD" | "EUR" | "RUB" | "GBP" | "CNY";
 
 }

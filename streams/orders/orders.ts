@@ -49,7 +49,7 @@ export type Order = {
     // Цена билета в номинале (в копейках/центах)
     price_nominal?: number;
 
-    // Валюта цены билета (RUB)
+    // Валюта цены билета (default "RUB")
     currency?: "USD" | "EUR" | "RUB" | "GBP" | "CNY";
   }[];
 
@@ -64,10 +64,10 @@ export type Order = {
         id: string;
 
         // Минимальная цена билетов в мероприятии (в копейках/центах)
-        price_min: number;
+        price_min?: number;
 
-        // Валюта минимальной цены билетов в мероприятии
-        currency: "USD" | "EUR" | "RUB" | "GBP" | "CNY";
+        // Валюта минимальной цены билетов в мероприятии (default "RUB")
+        currency?: "USD" | "EUR" | "RUB" | "GBP" | "CNY";
 
         // Количество доступных к продаже билетов в мероприятии
         tickets_available: number;
