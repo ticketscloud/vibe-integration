@@ -24,15 +24,18 @@ flowchart LR
         E[Events]
         OR[Orders]
         R[Refunds]
+        M[Meta]
     end
 
     TL --> E
     TL --> OR
     TL --> R
+    TL --> M
 
     E --> V
     OR --> V
     R --> V
+    M --> V
 
     V --> DB[(Vibe DB)]
 ```
@@ -46,9 +49,11 @@ Vibeapp получает информацию о проданных билета
   [Event JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/events.ts)
   (_Должны быть синхронизированы до обработки заказов_)
 - **Заказы (orders)** —
-  [Order JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/orders.ts),
+  [Order JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/orders.ts)
 - **Возвраты (refunds)** —
-  [Refund JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/refunds.ts),
+  [Refund JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/refunds.ts)
+- **Мета информация (meta)** — различные сообщения с meta-информацией
+  [Meta JSON](https://github.com/ticketscloud/vibe-integration/blob/main/streams/orders/meta.ts)
 
 _Набор топиков может быть изменён по согласованию между командами в зависимости от потребностей._
 
