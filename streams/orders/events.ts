@@ -3,6 +3,11 @@ export type Event = {
   // Уникальный идентификатор мероприятия
   id: string;
 
+  // Идентификатор источника мероприятия (например, ticketscloud, ticketmaster, afisha, yandex_afisha)
+  source: string;
+  // Идентификатор мероприятия в источнике
+  source_id: string;
+
   // Идентификатор группы мероприятий (если мероприятие является частью серии)
   group_id?: string;
 
@@ -57,6 +62,9 @@ export type Event = {
   organizer: {
     // Уникальный идентификатор организатора
     id: string;
+
+    source: string;
+    source_id: string;
 
     // Название организатора
     name: string;

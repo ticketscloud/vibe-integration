@@ -78,7 +78,7 @@ _Примеры сообщений в формате JSON приведены в 
 
 ### Production
 
-- **Bootstrap servers**: `rc1a-agdu796r4205p5ip.mdb.yandexcloud.net:9091`
+- **Bootstrap servers**: `['rc1a-agdu796r4205p5ip.mdb.yandexcloud.net:9091', 'rc1b-2vq60gur5r18vpu5.mdb.yandexcloud.net:9091', 'rc1d-ft6jeu47b9bp2aff.mdb.yandexcloud.net:9091']`
 - **Security protocol**: `SASL_SSL`
 - **SASL mechanism**: `SCRAM-SHA-512`
 - **SSL CA certificate**: `https://storage.yandexcloud.net/cloud-certs/CA.pem`
