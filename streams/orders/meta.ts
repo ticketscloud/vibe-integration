@@ -13,4 +13,6 @@ type EventMeta = {
   // Валюта минимальной цены билетов в мероприятии (default "RUB")
   currency?: "USD" | "EUR" | "RUB" | "GBP" | "CNY";
 
+  rating?: number; // Рейтинг мероприятия нормализированный к виду (integer): 0-100
+
 }
