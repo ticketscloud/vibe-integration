@@ -5,6 +5,9 @@ export type Order = {
   // Номер заказа
   number: string;
 
+  // Дата и время завершения заказа (Unix timestamp)
+  done_at: number;
+
   // Информация о покупателе
   customer: {
     // Электронная почта покупателя билетов
