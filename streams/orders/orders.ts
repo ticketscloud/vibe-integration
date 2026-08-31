@@ -8,6 +8,9 @@ export type Order = {
   // Дата и время завершения заказа (Unix timestamp)
   done_at: number;
 
+  // Источник заказа (например, "vibeapp", "ticketland", "mts-live")
+  origin?: string;
+
   // Информация о покупателе
   customer: {
     // Электронная почта покупателя билетов
